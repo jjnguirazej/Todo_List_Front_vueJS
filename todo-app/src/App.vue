@@ -1,9 +1,19 @@
 <script setup>
 
+import Navbar from './components/Navbar.vue';
+
+import TaskPage from './components/pages/TasksPage.vue';
+
+import Footer from './components/Footer.vue';
+
 </script>
 
 <template>
-  <h1>Hello baby</h1>
+ <Navbar/>
+
+ <TaskPage/>
+
+ <Footer/>
 </template>
 
 <style scoped>
