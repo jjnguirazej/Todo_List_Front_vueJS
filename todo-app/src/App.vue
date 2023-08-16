@@ -2,7 +2,7 @@
 
 import Navbar from './components/Navbar.vue';
 
-import TaskPage from './components/pages/TasksPage.vue';
+import TaskPage from './pages/TasksPage.vue';
 
 import Footer from './components/Footer.vue';
 
