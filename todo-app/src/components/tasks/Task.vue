@@ -2,36 +2,40 @@
     <li class="list-group-item py-3">
     <div class="d-flex justify-content-start align-items-center">
         <input class="form-check-input mt-0" :class="completedClass" type="checkbox" :checked="task.is_completed" />
-        <div class="ms-2 flex-grow-1" :class="completedClass"  title="Double click the text to edit or remove">
-            <!-- <div class="relative">
-                <input class="editable-task" type="text" />
-            </div> -->
-            <span>{{ task.name }}</span> 
+        <div class="ms-2 flex-grow-1" 
+        :class="completedClass"  
+        title="Double click the text to edit or remove"
+        @dblclick="$event => isEdit = true">
+            <div class="relative" v-if="isEdit">
+                <input class="editable-task" type="text" @keyup.esc="$event => isEdit = false" v-focus  />
+            </div>
+            <span v-else>{{ task.name }}</span> 
         </div>
         <!-- <div class="task-date">14 Agu 09:00PM</div> -->
     </div>
-    <div class="task-actions">
-        <button class="btn btn-sm btn-circle btn-outline-secondary me-1">
-            <IconPencil/>
-        </button>
-        <button class="btn btn-sm btn-circle btn-outline-danger">
-            <IconTrash/>
-        </button>
-    </div>
+
+    <TaskActions  @edit="$event => isEdit = true" v-show="!isEdit"/>
+
 </li>
 </template>
 
 <script setup>
 
-import { computed } from "vue";
-import IconPencil from "../icons/IconPencil.vue"
-import IconTrash from "../icons/iconTrash.vue"
+import { computed, ref } from "vue";
 
+import TaskActions from "./TaskActions.vue";
   const props =  defineProps({
 
         task: Object
     })
 
+    const isEdit = ref(false)
+
     const completedClass = computed(()=> props.task.is_completed ? "completed" : "")
+
+    const vFocus = {
+
+        mounted: (el) => el.focus()
+    }
 
 </script>
