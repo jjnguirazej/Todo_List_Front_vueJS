@@ -8,8 +8,13 @@
                     <!-- List of uncompleted tasks -->
 
                     <Tasks :tasks="uncompletedTasks" 
+
                             @updated="handleUpdatedTask"
+
                             @completed ="handleCompletedTasks"
+
+                            @removed ="handleRemovedTasks"
+
                             />
 
                     <!-- Show toggle button -->
@@ -27,6 +32,7 @@
                         :show="completedTaskIsVisible && showCompletedTasks"
                         @updated="handleUpdatedTask"
                         @completed ="handleCompletedTasks"
+                        @removed ="handleRemovedTasks"
                         
                         />
 
@@ -41,7 +47,7 @@
 
 import { computed, onMounted, ref } from 'vue';
 
-import { allTasks, createTask, updateTask, completeTask } from "../components/http/task-api"
+import { allTasks, createTask, updateTask, completeTask, removeTask } from "../components/http/task-api"
 
 import Tasks from "../components/tasks/Tasks.vue"
 
@@ -95,6 +101,15 @@ const { data: updatedTask } = await completeTask(task.id,{
 
 const currentTask = tasks.value.find(item => item.id == task.id) 
 currentTask.is_completed = updatedTask.data.is_completed
+}
+
+const handleRemovedTasks = async(task) => {
+
+    await removeTask(task.id)
+    
+    const index = tasks.value.findIndex(item => item.id == task.id)
+
+    task.value.splice(index,1)
 }
 
 
