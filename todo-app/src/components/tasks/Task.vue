@@ -1,7 +1,14 @@
 <template>
     <li class="list-group-item py-3">
     <div class="d-flex justify-content-start align-items-center">
-        <input class="form-check-input mt-0" :class="completedClass" type="checkbox" :checked="task.is_completed" />
+
+        <input class="form-check-input mt-0" 
+        :class="completedClass" 
+        type="checkbox" 
+        :checked="task.is_completed"
+        @change="markTaskAsCompleted"
+        />
+
         <div class="ms-2 flex-grow-1" 
         :class="completedClass"  
         title="Double click the text to edit or remove"
@@ -36,7 +43,7 @@ import TaskActions from "./TaskActions.vue";
         task: Object
     })
 
-    const emit = defineEmits(['updated'])
+    const emit = defineEmits(['updated', 'completed'])
 
     const isEdit = ref(false)
 
@@ -46,7 +53,7 @@ import TaskActions from "./TaskActions.vue";
 
     const vFocus = {
 
-        mounted: (el) => el.focus()
+        mounted: (el) => el.focus() 
     }
 
     const updateTask = event => { 
@@ -58,6 +65,14 @@ import TaskActions from "./TaskActions.vue";
         emit('updated', updatedTask)
 
     }
+
+    const markTaskAsCompleted = event => { 
+
+    const updatedTask ={...props.task, is_completed: !props.task.is_completed} 
+
+    emit('completed', updatedTask)
+
+}
 
     const undo = () => {
 
