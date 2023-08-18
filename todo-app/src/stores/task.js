@@ -1,27 +1,12 @@
 import { defineStore } from "pinia";
 
+import { allTasks } from "../components/http/task-api"
+
 export const useTaskStore = defineStore('taskStore', {
 
     state: () => ({
 
-        tasks: [
-            {
-            id: 1,
-            name: "First Task",
-            is_completed: false
-            },
-
-            {
-            id: 2,
-            name: "Second Task",
-            is_completed: true
-            },
-
-            {
-            id: 3,
-            name: "Third Task",
-            is_completed: false
-            }],
+        tasks: [],
 
         task: {
             id: 1,
@@ -44,6 +29,17 @@ export const useTaskStore = defineStore('taskStore', {
         uncompletedCount () {
 
             return this.uncompleted.length
+        }
+    },
+
+    actions: {
+
+        async fetchAllTasks(){
+
+            const { data } = await allTasks()
+
+            this.tasks = data.data
+
         }
     }
 })

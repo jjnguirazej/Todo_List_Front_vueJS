@@ -63,9 +63,8 @@ const { completedTasks, uncompletedTasks } = storeToRefs(store)
 
 const tasks = ref([])
 onMounted(async ()=>{
-    const { data } = await allTasks()
 
-    tasks.value = data.data
+   await store.fetchAllTasks()
 
 })
 
